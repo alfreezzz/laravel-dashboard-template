@@ -1,0 +1,96 @@
+@extends('layouts.app')
+
+@section('title', 'Data Penjualan')
+
+@section('content')
+<x-page-header 
+    title="Data Penjualan"
+    subtitle="Lihat dan kelola semua transaksi penjualan"
+    action-label="Tambah Penjualan"
+    :action-url="route('transactions.create')"
+/>
+
+@if(session('success'))
+    <x-alert type="success" :message="session('success')" />
+@endif
+
+@if(session('error'))
+    <x-alert type="error" :message="session('error')" />
+@endif
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-6 border border-blue-200 dark:border-blue-700">
+        <p class="text-blue-700 dark:text-blue-300 text-sm font-medium mb-1">Total Transaksi</p>
+        <h3 class="text-3xl font-bold text-blue-900 dark:text-blue-100">{{ $transactions->count() }}</h3>
+    </div>
+    
+    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-lg p-6 border border-emerald-200 dark:border-emerald-700">
+        <p class="text-emerald-700 dark:text-emerald-300 text-sm font-medium mb-1">Total Penjualan</p>
+        <h3 class="text-3xl font-bold text-emerald-900 dark:text-emerald-100">Rp {{ number_format($transactions->sum('total_price'), 0, ',', '.') }}</h3>
+    </div>
+
+    <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg p-6 border border-orange-200 dark:border-orange-700">
+        <p class="text-orange-700 dark:text-orange-300 text-sm font-medium mb-1">Rata-rata Transaksi</p>
+        <h3 class="text-3xl font-bold text-orange-900 dark:text-orange-100">
+            Rp {{ $transactions->count() > 0 ? number_format($transactions->sum('total_price') / $transactions->count(), 0, ',', '.') : '0' }}
+        </h3>
+    </div>
+</div>
+
+@php
+    $columns = [
+        [
+            'label' => 'No. Faktur',
+            'render' => fn($item) => "<span class='inline-flex px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 rounded-full'>#" . $item->id . "</span>"
+        ],
+        [
+            'label' => 'Nama Pembeli',
+            'render' => fn($item) => "<span class='text-sm font-medium text-slate-900 dark:text-white'>" . $item->consumer_name . "</span>"
+        ],
+        [
+            'label' => 'Kode Barang',
+            'render' => fn($item) => "<span class='inline-flex px-3 py-1 text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300 rounded-full'>" . $item->item_code . "</span>"
+        ],
+        [
+            'label' => 'Jumlah',
+            'render' => fn($item) => $item->quantity
+        ],
+        [
+            'label' => 'Harga Satuan',
+            'render' => fn($item) => 'Rp ' . number_format($item->unit_price, 0, ',', '.')
+        ],
+        [
+            'label' => 'Total Harga',
+            'render' => fn($item) => "<span class='font-semibold text-emerald-600 dark:text-emerald-400'>Rp " . number_format($item->total_price, 0, ',', '.') . "</span>"
+        ],
+        [
+            'label' => 'Tanggal Faktur',
+            'render' => fn($item) => $item->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i')
+        ]
+    ];
+    
+    $actions = fn($item) => view('components.table-row-actions', [
+        'showUrl' => route('transactions.show', $item->id),
+        // 'extraActions' => [
+        //     [
+        //         'url' => route('transactions.export', $item->id),
+        //         'label' => 'Export',
+        //         'icon' => "<svg class='w-5 h-5 text-sky-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 5v14m7-7H5'/></svg>",
+        //         'attrs' => "target='_blank' rel='noopener'"
+        //     ],
+        //     [
+        //         'url' => route('transactions.print', $item->id),
+        //         'label' => 'Print',
+        //         'icon' => "<svg class='w-5 h-5 text-slate-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 9V2h12v7'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18h12v-6H6v6z'/></svg>",
+        //     ],
+        // ]
+    ])->render();
+@endphp
+
+<x-data-table 
+    :items="$transactions"
+    :columns="$columns"
+    :actions="$actions"
+    emptyMessage="Tidak ada data penjualan"
+/>
+@endsection
