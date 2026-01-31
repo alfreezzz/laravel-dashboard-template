@@ -6,10 +6,12 @@
         - The component expects parent layout to provide Alpine state `sidebarOpen`.
 --}}
 <!-- Sidebar -->
-<div class="fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-slate-900 shadow-xl border-r border-slate-200 dark:border-slate-800 transform transition-transform duration-300" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" style="margin-top: 73px; height: calc(100vh - 73px);">
+<div class="fixed inset-y-0 left-0 z-40 bg-white dark:bg-slate-900 shadow-xl border-r border-slate-200 dark:border-slate-800 transition-all duration-300 transform" 
+     :class="sidebarOpen ? 'w-64 translate-x-0' : 'w-64 -translate-x-full lg:w-20 lg:translate-x-0'" 
+     style="margin-top: 73px; height: calc(100vh - 73px);">
     <!-- Sidebar Content -->
     <div class="h-full overflow-y-auto">
-        <div class="p-6 space-y-2">
+        <div class="p-6 space-y-2" :class="!sidebarOpen && 'lg:px-3'">
             <nav class="space-y-1">
                 <x-sidebar-link href="{{ url('/') }}" label="Beranda" :active="request()->is('/')">
                     <x-slot:icon>
@@ -44,14 +46,5 @@
                 </x-sidebar-link>
             </nav>
         </div>
-    </div>
-    
-    <!-- Close button for mobile -->
-    <div class="absolute top-4 right-4" @click="sidebarOpen = false">
-        <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition lg:hidden" title="Close Sidebar">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
     </div>
 </div>

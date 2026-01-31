@@ -13,7 +13,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::with('category')->get();
+        $items = Item::with('category')->latest()->get();
         return view('items.index', compact('items'));
     }
 

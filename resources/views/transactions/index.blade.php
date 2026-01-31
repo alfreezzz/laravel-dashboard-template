@@ -41,30 +41,44 @@
     $columns = [
         [
             'label' => 'No. Faktur',
+            'key' => 'id',
+            'sortable' => true,
             'render' => fn($item) => "<span class='inline-flex px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 rounded-full'>#" . $item->id . "</span>"
         ],
         [
             'label' => 'Nama Pembeli',
+            'key' => 'consumer_name',
+            'sortable' => true,
             'render' => fn($item) => "<span class='text-sm font-medium text-slate-900 dark:text-white'>" . $item->consumer_name . "</span>"
         ],
         [
             'label' => 'Kode Barang',
+            'key' => 'item_code',
+            'sortable' => true,
             'render' => fn($item) => "<span class='inline-flex px-3 py-1 text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300 rounded-full'>" . $item->item_code . "</span>"
         ],
         [
             'label' => 'Jumlah',
+            'key' => 'quantity',
+            'sortable' => true,
             'render' => fn($item) => $item->quantity
         ],
         [
             'label' => 'Harga Satuan',
+            'key' => 'unit_price',
+            'sortable' => true,
             'render' => fn($item) => 'Rp ' . number_format($item->unit_price, 0, ',', '.')
         ],
         [
             'label' => 'Total Harga',
+            'key' => 'total_price',
+            'sortable' => true,
             'render' => fn($item) => "<span class='font-semibold text-emerald-600 dark:text-emerald-400'>Rp " . number_format($item->total_price, 0, ',', '.') . "</span>"
         ],
         [
             'label' => 'Tanggal Faktur',
+            'key' => 'created_at',
+            'sortable' => true,
             'render' => fn($item) => $item->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i')
         ]
     ];

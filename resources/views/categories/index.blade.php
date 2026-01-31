@@ -22,10 +22,14 @@
     $columns = [
         [
             'label' => 'No',
+            'key' => 'id',
+            'sortable' => true,
             'render' => fn($item, $key) => $key + 1
         ],
         [
             'label' => 'Nama Kategori',
+            'key' => 'name',
+            'sortable' => true,
             'render' => fn($item) => "<span class='text-sm font-medium text-slate-900 dark:text-white'>" . $item->name . "</span>"
         ],
         [
@@ -34,6 +38,8 @@
         ],
         [
             'label' => 'Tanggal',
+            'key' => 'created_at',
+            'sortable' => true,
             'render' => fn($item) => $item->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i')
         ]
     ];

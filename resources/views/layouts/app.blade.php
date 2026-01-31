@@ -9,12 +9,28 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950">
     <div x-data="{ 
-        sidebarOpen: window.innerWidth >= 1024,
+        sidebarOpen: window.innerWidth >= 1024 ? (localStorage.getItem('sidebarOpen') === 'true' || localStorage.getItem('sidebarOpen') === null) : false,
         init() {
+            // Watch untuk perubahan sidebarOpen dan simpan ke localStorage hanya untuk desktop
+            this.$watch('sidebarOpen', value => {
+                if (window.innerWidth >= 1024) {
+                    localStorage.setItem('sidebarOpen', value);
+                }
+            });
+            
+            // Handle resize
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 1024) {
-                    this.sidebarOpen = true;
+                    // Di desktop, gunakan status yang tersimpan
+                    const saved = localStorage.getItem('sidebarOpen');
+                    if (saved === null) {
+                        this.sidebarOpen = true;
+                        localStorage.setItem('sidebarOpen', true);
+                    } else {
+                        this.sidebarOpen = saved === 'true';
+                    }
                 } else {
+                    // Di mobile/tablet, selalu tutup
                     this.sidebarOpen = false;
                 }
             });
@@ -27,7 +43,8 @@
         <x-sidebar />
         
         <!-- Main Content with top padding for fixed navbar -->
-        <div class="pt-[73px] transition-all duration-300" :class="sidebarOpen ? 'lg:ml-64' : ''">
+        <div class="pt-[73px] transition-all duration-300" 
+             :class="sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'">
             <main class="min-h-screen p-4 sm:p-6 lg:p-8 bg-slate-50 dark:bg-slate-950">
                 @yield('content')
             </main>

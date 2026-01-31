@@ -7,7 +7,9 @@
 --}}
 <!-- Navbar -->
 <nav class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 shadow-sm border-b border-slate-200 dark:border-slate-800">
-    <div class="px-6 py-4">
+    <div class="py-4 pr-6 transition-all duration-300"
+        :class="sidebarOpen ? 'pl-7' : 'pl-5'"
+    >
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <!-- Sidebar Toggle Button (all screen sizes) -->
@@ -22,7 +24,7 @@
                 </h1>
             </div>
             
-            <div class="text-sm text-slate-600 dark:text-slate-400">
+            <div class="hidden sm:block sm:text-sm text-slate-600 dark:text-slate-400">
                 {{ now()->timezone('Asia/Jakarta')->format('d M Y, H:i') }}
             </div>
         </div>

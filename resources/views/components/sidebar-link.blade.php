@@ -17,7 +17,20 @@
 --}}
 @props(['href', 'label', 'active' => false])
 
-<a href="{{ $href }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all {{ $active ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800' }}">
+<a href="{{ $href }}" 
+   class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all {{ $active ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800' }}"
+   :class="!sidebarOpen && 'justify-center lg:justify-center'"
+   x-data="{ showTooltip: false }"
+   @mouseenter="showTooltip = !sidebarOpen"
+   @mouseleave="showTooltip = false">
     {{ $icon }}
-    <span>{{ $label }}</span>
+    <span x-show="sidebarOpen" class="transition-opacity duration-300">{{ $label }}</span>
+    
+    <!-- Tooltip saat sidebar ditutup -->
+    <div x-show="showTooltip" 
+         x-transition
+         class="hidden lg:block fixed left-24 px-3 py-2 bg-slate-900 dark:bg-slate-700 text-white text-sm rounded-lg shadow-lg whitespace-nowrap pointer-events-none z-50"
+         style="margin-top: 0;">
+        {{ $label }}
+    </div>
 </a>
