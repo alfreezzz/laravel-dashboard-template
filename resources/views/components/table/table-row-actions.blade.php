@@ -1,6 +1,6 @@
 {{--
     Component: table-row-actions
-    Usage: <x-table-row-actions :showUrl="route('...')" :editUrl="..." :deleteUrl="..." :extraActions="$extra" />
+    Usage: <x-table.table-row-actions :showUrl="route('...')" :editUrl="..." :deleteUrl="..." :extraActions="$extra" />
     Props:
         - showUrl (optional): string - URL to view details.
         - editUrl (optional): string - URL to edit.

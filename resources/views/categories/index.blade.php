@@ -44,14 +44,14 @@
         ]
     ];
     
-    $actions = fn($category) => view('components.table-row-actions', [
+    $actions = fn($category) => view('components.table.table-row-actions', [
         'editUrl' => route('categories.edit', $category->id),
         'deleteUrl' => route('categories.destroy', $category->id),
         'deleteMessage' => 'Yakin ingin menghapus kategori ini?'
     ])->render();
 @endphp
 
-<x-data-table 
+<x-table.data-table 
     :items="$categories"
     :columns="$columns"
     :actions="$actions"

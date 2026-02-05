@@ -1,6 +1,6 @@
 {{--
     Component: data-table
-    Usage: <x-data-table :items="$items" :columns="$columns" />
+    Usage: <x-table.data-table :items="$items" :columns="$columns" />
     Props:
         - items (required): Collection|Array of items to display.
         - columns (required): Array of column definitions. Each column can be:

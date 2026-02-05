@@ -1,6 +1,6 @@
 {{--
     Component: form-card
-    Usage: <x-form-card title="Tambah Barang" :backUrl="route('items.index')">...form...</x-form-card>
+    Usage: <x-form.form-card title="Tambah Barang" :backUrl="route('items.index')">...form...</x-form.form-card>
     Props:
         - title (required): string - page/title text shown above the card.
         - backUrl (optional): string - URL for a back button (if provided, a back button will be shown).

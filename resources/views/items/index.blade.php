@@ -66,14 +66,14 @@
         ]
     ];
     
-    $actions = fn($item) => view('components.table-row-actions', [
+    $actions = fn($item) => view('components.table.table-row-actions', [
         'editUrl' => route('items.edit', $item->id),
         'deleteUrl' => route('items.destroy', $item->id),
         'deleteMessage' => 'Yakin ingin menghapus barang ini?'
     ])->render();
 @endphp
 
-<x-data-table 
+<x-table.data-table 
     :items="$items"
     :columns="$columns"
     :actions="$actions"

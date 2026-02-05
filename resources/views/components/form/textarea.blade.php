@@ -1,6 +1,6 @@
 {{--
     Component: textarea
-    Usage: <x-textarea label="Deskripsi" name="description" :value="$model->description" />
+    Usage: <x-form.textarea label="Deskripsi" name="description" :value="$model->description" />
     Props:
         - label (optional): string - label text displayed above textarea.
         - name (required-ish): string - form name attribute (used for validation keys).

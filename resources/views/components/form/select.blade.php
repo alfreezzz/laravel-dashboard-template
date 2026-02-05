@@ -1,6 +1,6 @@
 {{--
     Component: select
-    Usage: <x-select label="Kategori" name="category_id" :options="$categories" optionValue="id" optionLabel="name" :value="$model->category_id" />
+    Usage: <x-form.select label="Kategori" name="category_id" :options="$categories" optionValue="id" optionLabel="name" :value="$model->category_id" />
     Props:
         - label (optional): string - label text.
         - name (required-ish): string - form field name.

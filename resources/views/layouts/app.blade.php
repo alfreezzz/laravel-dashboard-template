@@ -40,7 +40,7 @@
         <x-navbar />
         
         <!-- Sidebar -->
-        <x-sidebar />
+        <x-sidebar.sidebar />
         
         <!-- Main Content with top padding for fixed navbar -->
         <div class="pt-[73px] transition-all duration-300" 

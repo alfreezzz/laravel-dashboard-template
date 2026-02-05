@@ -3,12 +3,12 @@
 @section('title', 'Edit Kategori')
 
 @section('content')
-<x-form-card title="Edit Kategori" :backUrl="route('categories.index')">
+<x-form.form-card title="Edit Kategori" :backUrl="route('categories.index')">
     <form action="{{ route('categories.update', $category->id) }}" method="POST" class="space-y-6">
         @csrf
         @method('PUT')
 
-        <x-input
+        <x-form.input
             label="Nama Kategori"
             name="name"
             placeholder="Masukkan nama kategori"
@@ -21,7 +21,7 @@
                 value="{{ $category->slug }}" 
                 disabled>
 
-        <x-textarea
+        <x-form.textarea
             label="Deskripsi"
             name="description"
             placeholder="Masukkan deskripsi kategori (opsional)"
@@ -29,7 +29,7 @@
             rows="4"
         />
 
-        <x-form-actions submitLabel="Simpan Perubahan" :cancelUrl="route('categories.index')" />
+        <x-form.form-actions submitLabel="Simpan Perubahan" :cancelUrl="route('categories.index')" />
     </form>
-</x-form-card>
+</x-form.form-card>
 @endsection

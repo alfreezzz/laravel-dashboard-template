@@ -1,6 +1,6 @@
 {{--
     Component: image-upload
-    Usage: <x-image-upload label="Foto" name="image" :preview="$model->image_url" />
+    Usage: <x-form.image-upload label="Foto" name="image" :preview="$model->image_url" />
     Props:
         - label (optional): string - label text.
         - name (required-ish): string - form field name.

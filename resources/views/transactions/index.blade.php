@@ -83,7 +83,7 @@
         ]
     ];
     
-    $actions = fn($item) => view('components.table-row-actions', [
+    $actions = fn($item) => view('components.table.table-row-actions', [
         'showUrl' => route('transactions.show', $item->id),
         // 'extraActions' => [
         //     [
@@ -101,7 +101,7 @@
     ])->render();
 @endphp
 
-<x-data-table 
+<x-table.data-table 
     :items="$transactions"
     :columns="$columns"
     :actions="$actions"

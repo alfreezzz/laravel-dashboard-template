@@ -3,11 +3,11 @@
 @section('title', 'Tambah Penjualan')
 
 @section('content')
-<x-form-card title="Tambah Penjualan Baru" :backUrl="route('transactions.index')">
+<x-form.form-card title="Tambah Penjualan Baru" :backUrl="route('transactions.index')">
     <form action="{{ route('transactions.store') }}" method="POST" class="space-y-6">
         @csrf
 
-        <x-input
+        <x-form.input
             label="Nama Pembeli"
             name="consumer_name"
             placeholder="Masukkan nama pembeli"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <x-input
+            <x-form.input
                 label="Jumlah"
                 name="quantity"
                 type="number"
@@ -54,7 +54,7 @@
                 oninput="calculateTotal()"
             />
 
-            <x-input
+            <x-form.input
                 label="Harga Satuan"
                 name="unit_price"
                 type="number"
@@ -77,9 +77,9 @@
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Otomatis dihitung dari jumlah × harga satuan</p>
         </div>
 
-        <x-form-actions :cancelUrl="route('transactions.index')" />
+        <x-form.form-actions :cancelUrl="route('transactions.index')" />
     </form>
-</x-form-card>
+</x-form.form-card>
 
 <script>
 function updatePrice() {

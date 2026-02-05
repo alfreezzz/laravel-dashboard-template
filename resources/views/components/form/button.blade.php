@@ -1,6 +1,6 @@
 {{--
     Component: button
-    Usage: <x-button type="submit" variant="primary">Simpan</x-button>
+    Usage: <x-form.button type="submit" variant="primary">Simpan</x-form.button>
     Props:
         - type (optional): string - button type attribute (default: 'submit').
         - variant (optional): string - visual variant (primary, success, danger, secondary, outline).

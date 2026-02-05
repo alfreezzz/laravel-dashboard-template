@@ -1,6 +1,6 @@
 {{--
     Component: input
-    Usage: <x-input label="Nama" name="name" :value="$model->name" />
+    Usage: <x-form.input label="Nama" name="name" :value="$model->name" />
     Props:
         - label (optional): string - label text.
         - type (optional): string - input type (default: 'text').

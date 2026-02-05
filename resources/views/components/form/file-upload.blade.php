@@ -1,6 +1,6 @@
 {{--
     Component: file-upload
-    Usage: <x-file-upload label="File" name="attachments" :multiple="true" />
+    Usage: <x-form.file-upload label="File" name="attachments" :multiple="true" />
     Props:
         - label (optional): string - label text.
         - name (required-ish): string - form field name.
