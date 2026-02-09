@@ -12,11 +12,11 @@
         - Tooltips use fixed positioning to avoid overflow issues.
 --}}
 @props([
-        'editUrl' => null,
-        'deleteUrl' => null,
-        'showUrl' => null,
-        'deleteMessage' => 'Yakin ingin menghapus data ini?',
-        'extraActions' => [] // array of ['url' => '', 'icon' => '', 'color' => '', 'label' => '', 'attrs' => '']
+    'editUrl' => null,
+    'deleteUrl' => null,
+    'showUrl' => null,
+    'deleteMessage' => 'Yakin ingin menghapus data ini?',
+    'extraActions' => [] // array of ['url' => '', 'icon' => '', 'color' => '', 'label' => '', 'attrs' => '']
 ])
 
 <div class="flex items-center justify-center gap-2">
@@ -28,22 +28,12 @@
              @mouseleave="tooltip = false">
             <a href="{{ $showUrl }}" 
                class="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition inline-flex items-center justify-center">
-                <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z"/></svg>
+                <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z"/>
+                </svg>
             </a>
-            <div x-show="tooltip"
-                 x-transition:enter="transition ease-out duration-100"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100"
-                 x-transition:leave="transition ease-in duration-75"
-                 x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 style="display: none;"
-                 class="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-md shadow-lg whitespace-nowrap pointer-events-none z-[9999]">
-                <div class="relative">
-                    Detail
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900 dark:border-t-slate-700"></div>
-                </div>
-            </div>
+            <x-tooltip :show="'tooltip'">Detail</x-tooltip>
         </div>
     @endif
 
@@ -55,22 +45,11 @@
              @mouseleave="tooltip = false">
             <a href="{{ $editUrl }}" 
                class="p-2 rounded-md hover:bg-amber-100 dark:hover:bg-amber-900 transition inline-flex items-center justify-center">
-                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
             </a>
-            <div x-show="tooltip"
-                 x-transition:enter="transition ease-out duration-100"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100"
-                 x-transition:leave="transition ease-in duration-75"
-                 x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 style="display: none;"
-                 class="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-md shadow-lg whitespace-nowrap pointer-events-none z-[9999]">
-                <div class="relative">
-                    Edit
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900 dark:border-t-slate-700"></div>
-                </div>
-            </div>
+            <x-tooltip :show="'tooltip'">Edit</x-tooltip>
         </div>
     @endif
 
@@ -85,23 +64,12 @@
                 @method('DELETE')
                 <button type="submit" 
                         class="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900 transition inline-flex items-center justify-center">
-                    <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4a1 1 0 011 1v1H9V4a1 1 0 011-1z"/></svg>
+                    <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4a1 1 0 011 1v1H9V4a1 1 0 011-1z"/>
+                    </svg>
                 </button>
             </form>
-            <div x-show="tooltip"
-                 x-transition:enter="transition ease-out duration-100"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100"
-                 x-transition:leave="transition ease-in duration-75"
-                 x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 style="display: none;"
-                 class="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-md shadow-lg whitespace-nowrap pointer-events-none z-[9999]">
-                <div class="relative">
-                    Hapus
-                    <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900 dark:border-t-slate-700"></div>
-                </div>
-            </div>
+            <x-tooltip :show="'tooltip'">Hapus</x-tooltip>
         </div>
     @endif
 
@@ -109,7 +77,7 @@
     @foreach($extraActions as $act)
         @php
             $url = $act['url'] ?? '#';
-            $icon = $act['icon'] ?? null; // raw svg or class
+            $icon = $act['icon'] ?? null;
             $color = $act['color'] ?? 'slate-600';
             $label = $act['label'] ?? '';
             $attrs = $act['attrs'] ?? '';
@@ -124,24 +92,13 @@
                 @if($icon)
                     {!! $icon !!}
                 @else
-                    <svg class="w-5 h-5 text-{{ $color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/></svg>
+                    <svg class="w-5 h-5 text-{{ $color }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                    </svg>
                 @endif
             </a>
             @if($label)
-                <div x-show="tooltip"
-                     x-transition:enter="transition ease-out duration-100"
-                     x-transition:enter-start="opacity-0 scale-95"
-                     x-transition:enter-end="opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-75"
-                     x-transition:leave-start="opacity-100 scale-100"
-                     x-transition:leave-end="opacity-0 scale-95"
-                     style="display: none;"
-                     class="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 dark:bg-slate-700 text-white text-xs rounded-md shadow-lg whitespace-nowrap pointer-events-none z-[9999]">
-                    <div class="relative">
-                        {{ $label }}
-                        <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900 dark:border-t-slate-700"></div>
-                    </div>
-                </div>
+                <x-tooltip :show="'tooltip'">{{ $label }}</x-tooltip>
             @endif
         </div>
     @endforeach

@@ -26,7 +26,7 @@
     {{ $icon }}
     <span x-show="sidebarOpen" class="transition-opacity duration-300">{{ $label }}</span>
     
-    <!-- Tooltip saat sidebar ditutup -->
+    {{-- Tooltip saat sidebar ditutup --}}
     <div x-show="showTooltip" 
          x-transition
          class="hidden lg:block fixed left-24 px-3 py-2 bg-slate-900 dark:bg-slate-700 text-white text-sm rounded-lg shadow-lg whitespace-nowrap pointer-events-none z-50"

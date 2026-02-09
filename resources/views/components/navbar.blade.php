@@ -20,7 +20,7 @@
                 </button>
                 
                 <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                    POS Toko
+                    {{ env('APP_NAME') }}
                 </h1>
             </div>
             

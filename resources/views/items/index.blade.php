@@ -30,7 +30,9 @@
             'label' => 'Kode Barang',
             'key' => 'code',
             'sortable' => true,
-            'render' => fn($item) => "<span class='inline-flex px-3 py-1 text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300 rounded-full'>" . $item->code . "</span>"
+            'render' => fn($item) => view('components.badge', [
+                'color' => 'purple',
+            ])->with('slot', $item->code)->render()
         ],
         [
             'label' => 'Nama Barang',
