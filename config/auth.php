@@ -20,6 +20,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Registration Toggle
+    |--------------------------------------------------------------------------
+    |
+    | When this value is false, the registration routes will not be registered.
+    | You can control this via the REGISTRATION_ENABLED environment variable.
+    |
+    */
+    'registration_enabled' => env('REGISTRATION_ENABLED', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
     |

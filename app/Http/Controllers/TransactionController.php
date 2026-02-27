@@ -14,7 +14,7 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::with('item')->latest()->get();
-        return view('transactions.index', compact('transactions'));
+        return view('admin.transactions.index', compact('transactions'));
     }
 
     /**
@@ -23,7 +23,7 @@ class TransactionController extends Controller
     public function create()
     {
         $items = Item::all();
-        return view('transactions.create', compact('items'));
+        return view('admin.transactions.create', compact('items'));
     }
 
     /**
@@ -51,7 +51,7 @@ class TransactionController extends Controller
     public function show(string $id)
     {
         $transaction = Transaction::with('item')->findOrFail($id);
-        return view('transactions.show', compact('transaction'));
+        return view('admin.transactions.show', compact('transaction'));
     }
 
     /**
