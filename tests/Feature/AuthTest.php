@@ -15,12 +15,12 @@ uses(RefreshDatabase::class);
 it('shows the login page', function () {
     $this->get('/login')
         ->assertStatus(200)
-        ->assertSee('Login');
+        ->assertSee('Masuk');
 });
 
 it('shows register page when enabled', function () {
     config(['auth.registration_enabled' => true]);
-    $this->get('/register')->assertStatus(200)->assertSee('Register');
+    $this->get('/register')->assertStatus(200)->assertSee('Buat Akun Baru');
 });
 
 it('returns 404 for register when disabled', function () {
@@ -129,8 +129,8 @@ it('settings page shows profile, theme, and password tabs', function () {
         ->get('/settings')
         ->assertStatus(200)
         ->assertSee('Profil')
-        ->assertSee('Tema Warna')
-        ->assertSee('Ganti Password');
+        ->assertSee('Tampilan')
+        ->assertSee('Password');
 });
 
 it('user can update profile settings', function () {

@@ -15,9 +15,23 @@
                     </svg>
                 </button>
 
-                <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                    <a href="{{ url('/') }}">{{ env('APP_NAME') }}</a>
-                </h1>
+                {{-- look for logo.png in public folder --}}
+                @php
+                    $logoFile = public_path('logo.png');
+                    $logo = file_exists($logoFile) ? asset('logo.png') : null;
+                @endphp
+                @if($logo)
+                    <a href="{{ url('/') }}" class="flex items-center">
+                        <img src="{{ $logo }}" alt="logo" class="h-8 w-auto">
+                        {{-- <span class="ml-2 text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                            {{ env('APP_NAME') }}
+                        </span> --}}
+                    </a>
+                @else
+                    <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                        <a href="{{ url('/') }}">{{ env('APP_NAME') }}</a>
+                    </h1>
+                @endif
             </div>
 
             {{-- Kanan --}}

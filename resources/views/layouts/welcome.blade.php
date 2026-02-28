@@ -29,9 +29,22 @@
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                {{ env('APP_NAME') }}
-            </h1>
+            @php
+                $logoFile = public_path('logo.png');
+                $logo = file_exists($logoFile) ? asset('logo.png') : null;
+            @endphp
+            @if($logo)
+                <a href="{{ url('/') }}" class="flex items-center">
+                    <img src="{{ $logo }}" alt="logo" class="h-8 w-auto">
+                    {{-- <span class="ml-2 text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                        {{ env('APP_NAME') }}
+                    </span> --}}
+                </a>
+            @else
+                <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                    {{ env('APP_NAME') }}
+                </h1>
+            @endif
             <div class="flex items-center gap-2">
                 @auth
                     <a href="{{ url('/dashboard') }}"

@@ -30,10 +30,23 @@
     {{-- Navbar --}}
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="{{ url('/') }}"
-               class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                {{ config('app.name') }}
-            </a>
+            @php
+                $logoFile = public_path('logo.png');
+                $logo = file_exists($logoFile) ? asset('logo.png') : null;
+            @endphp
+            @if($logo)
+                <a href="{{ url('/') }}" class="flex items-center">
+                    <img src="{{ $logo }}" alt="logo" class="h-8 w-auto">
+                    {{-- <span class="ml-2 text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                        {{ env('APP_NAME') }}
+                    </span> --}}
+                </a>
+            @else
+                <a href="{{ url('/') }}"
+                   class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                    {{ config('app.name') }}
+                </a>
+            @endif
             <a href="{{ url('/') }}"
                class="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
