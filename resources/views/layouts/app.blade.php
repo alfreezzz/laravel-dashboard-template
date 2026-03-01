@@ -17,6 +17,17 @@
             }
         })();
     </script>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <script>
+        window.Laravel = {
+            @auth
+                userId: {{ auth()->id() }},
+            @else
+                userId: null,
+            @endauth
+            csrfToken: '{{ csrf_token() }}'
+        };
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>

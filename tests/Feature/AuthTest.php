@@ -91,6 +91,61 @@ it('admin user can also access settings', function () {
     $this->get('/settings')->assertStatus(200)->assertSee('Pengaturan');
 });
 
+it('inactive account cannot log in', function () {
+    $user = User::factory()->create([
+        'password' => Hash::make('secret123'),
+        'is_active' => false,
+    ]);
+
+    $this->post('/login', ['email' => $user->email, 'password' => 'secret123'])
+        ->assertStatus(302)
+        ->assertSessionHasErrors('email');
+    $this->assertGuest();
+});
+
+it('admin cannot delete themselves', function () {
+    $admin = User::factory()->create([
+        'password' => Hash::make('secret123'),
+        'role' => 'admin',
+    ]);
+
+    $this->actingAs($admin)
+        ->delete('/admin/users/' . $admin->id)
+        ->assertStatus(403);
+});
+
+it('admin can deactivate another account via toggle', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+    $other = User::factory()->create(['is_active' => true]);
+
+    $this->actingAs($admin)
+        ->patch('/admin/users/' . $other->id . '/toggle')
+        ->assertRedirect('/admin/users');
+
+    $this->assertFalse($other->fresh()->is_active);
+});
+
+it('admin cannot deactivate self via toggle', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $this->actingAs($admin)
+        ->patch('/admin/users/' . $admin->id . '/toggle')
+        ->assertStatus(403);
+});
+
+it('admin cannot deactivate self when editing profile', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+
+    $this->actingAs($admin)
+        ->put('/admin/users/' . $admin->id, [
+            'name' => $admin->name,
+            'email' => $admin->email,
+            'role' => 'admin',
+            'is_active' => false,
+        ])
+        ->assertStatus(403);
+});
+
 it('admin user sees user management link and can view index', function () {
     $admin = User::factory()->create([
         'password' => Hash::make('secret123'),
@@ -116,10 +171,11 @@ it('admin user can create a new user through the CRUD form', function () {
             'role' => 'user',
             'password' => 'password123',
             'password_confirmation' => 'password123',
+            'is_active' => true,
         ])
         ->assertRedirect('/admin/users');
 
-    $this->assertDatabaseHas('users', ['email' => 'newuser@example.com']);
+    $this->assertDatabaseHas('users', ['email' => 'newuser@example.com', 'is_active' => true]);
 });
 
 it('settings page shows profile, theme, and password tabs', function () {
@@ -174,4 +230,55 @@ it('password change fails with incorrect current password', function () {
 
     $response->assertRedirect('/settings');
     $response->assertSessionHasErrors('old_password');
+});
+
+// notification system tests (basic scaffolding)
+it('user has notifications relationship', function () {
+    $user = User::factory()->create();
+    \App\Models\Notification::factory()->count(3)->create(['user_id' => $user->id]);
+
+    expect($user->notifications()->count())->toBe(3);
+});
+
+it('navbar displays unread count', function () {
+    $user = User::factory()->create();
+    \App\Models\Notification::factory()->create(['user_id' => $user->id]);
+    \App\Models\Notification::factory()->create(['user_id' => $user->id, 'read_at' => now()]);
+
+    $this->actingAs($user)
+        ->get('/user')
+        ->assertSee('1');
+});
+
+it('notification dropdown shows link to view all', function () {
+    $user = User::factory()->create();
+    \App\Models\Notification::factory()->create(['user_id' => $user->id]);
+
+    $response = $this->actingAs($user)->get('/user');
+    // because the dropdown requires JS, just ensure the anchor exists in rendered HTML
+    $response->assertSee('Lihat semua');
+});
+
+it('mark all read route clears unread notifications', function () {
+    $user = User::factory()->create();
+    \App\Models\Notification::factory()->count(3)->create(['user_id' => $user->id]);
+
+    $this->actingAs($user)
+        ->patch('/notifications/read-all')
+        ->assertRedirect();
+
+    $this->assertDatabaseCount('notifications', 3);
+    $this->assertDatabaseMissing('notifications', ['user_id' => $user->id, 'read_at' => null]);
+});
+
+it('notifications index shows messages', function () {
+    $user = User::factory()->create();
+    $n1 = \App\Models\Notification::factory()->create(["user_id" => $user->id, 'data' => ['message' => 'Hello']]);
+    $n2 = \App\Models\Notification::factory()->create(["user_id" => $user->id, 'data' => ['message' => 'World']]);
+
+    $this->actingAs($user)
+        ->get('/notifications')
+        ->assertStatus(200)
+        ->assertSee('Hello')
+        ->assertSee('World');
 });

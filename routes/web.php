@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\AuthController;
 use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Route;
 
 // register the role middleware alias so we can use it on routes
 Route::aliasMiddleware('role', RoleMiddleware::class);
@@ -44,6 +44,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('items', ItemController::class);
     Route::resource('transactions', TransactionController::class)->only(['index', 'create', 'store', 'show']);
     Route::resource('users', \App\Http\Controllers\UserController::class);
+    // quick toggle endpoint for active/disabled state
+    Route::patch('users/{user}/toggle', [\App\Http\Controllers\UserController::class, 'toggle'])->name('users.toggle');
 });
 
 // shared settings accessible to any authenticated user
@@ -51,6 +53,16 @@ Route::middleware('auth')->group(function () {
     Route::get('settings', [AuthController::class, 'settings'])->name('settings');
     Route::post('settings', [AuthController::class, 'updateSettings'])->name('settings.update');
     Route::post('settings/password', [AuthController::class, 'updatePassword'])->name('settings.password');
+
+    // basic notification system (design complete, implementation stub)
+    Route::get('notifications', [\App\Http\Controllers\NotificationController::class, 'index'])
+        ->name('notifications.index');
+    Route::patch('notifications/{notification}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])
+        ->name('notifications.mark');
+    Route::patch('notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])
+        ->name('notifications.markAllRead');
+    Route::patch('mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])
+        ->name('notifications.markAllRead');
 });
 
 // user area (basic dashboard) protected by auth and role user

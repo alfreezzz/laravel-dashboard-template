@@ -90,6 +90,19 @@
     
     $actions = fn($item) => view('components.table.table-row-actions', [
         'showUrl' => route('transactions.show', $item->id),
+        // 'extraActions' => [
+        //     [
+        //         'url' => route('transactions.export', $item->id),
+        //         'label' => 'Export',
+        //         'icon' => "<svg class='w-5 h-5 text-sky-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 5v14m7-7H5'/></svg>",
+        //         'attrs' => "target='_blank' rel='noopener'"
+        //     ],
+        //     [
+        //         'url' => route('transactions.print', $item->id),
+        //         'label' => 'Print',
+        //         'icon' => "<svg class='w-5 h-5 text-slate-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 9V2h12v7'/><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18h12v-6H6v6z'/></svg>",
+        //     ],
+        // ]
     ])->render();
 @endphp
 

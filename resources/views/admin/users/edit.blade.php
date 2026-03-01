@@ -23,6 +23,14 @@
         <x-form.input label="Password baru (kosongkan bila tidak diubah)" name="password" type="password" />
         <x-form.input label="Konfirmasi Password" name="password_confirmation" type="password" />
 
+        <x-form.checkbox 
+            label="Akun aktif" 
+            name="is_active" 
+            :checked="old('is_active', $user->is_active)"
+            :disabled="auth()->id() === $user->id"
+            :description="auth()->id() === $user->id ? '(tidak bisa dinonaktifkan sendiri)' : null" 
+        />
+
         <x-form.form-actions submitLabel="Simpan Perubahan" :cancelUrl="route('users.index')" />
     </form>
 </x-form.form-card>

@@ -25,6 +25,12 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+            if (! $user->is_active) {
+                Auth::logout();
+
+                return back()->withErrors(['email' => 'Akun Anda dinonaktifkan'])->onlyInput('email');
+            }
+
             if ($user->role === 'admin') {
                 return redirect()->intended(route('admin.dashboard'));
             }
@@ -40,6 +46,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 
@@ -48,6 +55,7 @@ class AuthController extends Controller
         if (! config('auth.registration_enabled')) {
             abort(404);
         }
+
         return view('auth.register');
     }
 
@@ -80,6 +88,7 @@ class AuthController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+
         return view('auth.settings', compact('user'));
     }
 
@@ -93,6 +102,7 @@ class AuthController extends Controller
         ]);
 
         $user->update($validated);
+
         return back()->with('success', 'Profil diperbarui');
     }
 

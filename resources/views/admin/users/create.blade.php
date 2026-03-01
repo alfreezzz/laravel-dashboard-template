@@ -22,6 +22,8 @@
         <x-form.input label="Password" name="password" type="password" required />
         <x-form.input label="Konfirmasi Password" name="password_confirmation" type="password" required />
 
+        <x-form.checkbox label="Akun aktif" name="is_active" :checked="old('is_active', true)" />
+
         <x-form.form-actions :cancelUrl="route('users.index')" />
     </form>
 </x-form.form-card>

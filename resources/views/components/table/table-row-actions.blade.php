@@ -134,21 +134,35 @@
     @endif
 
     {{-- Extra actions --}}
-    @foreach($extraActions as $act)
+    @foreach($extraActions as $index => $act)
         @php
             $url = $act['url'] ?? '#';
             $icon = $act['icon'] ?? null;
             $color = $act['color'] ?? 'slate-600';
             $label = $act['label'] ?? '';
             $attrs = $act['attrs'] ?? '';
+            $method = $act['method'] ?? null;
         @endphp
         <div class="relative inline-flex" 
              x-data="{ tooltip: false }"
              @mouseenter="tooltip = true"
              @mouseleave="tooltip = false">
-            <a href="{{ $url }}" 
-               class="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition inline-flex items-center justify-center" 
-               {!! $attrs !!}>
+
+            @if($method && in_array(strtoupper($method), ['PATCH','PUT','DELETE','POST']))
+                {{-- build hidden form for action --}}
+                <form x-ref="extraForm{{ $index }}" action="{{ $url }}" method="POST" class="hidden">
+                    @csrf
+                    @method($method)
+                </form>
+                <a href="#" @click.prevent="$refs.extraForm{{ $index }}.submit()"
+                   class="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition inline-flex items-center justify-center" 
+                   {!! $attrs !!}>
+            @else
+                <a href="{{ $url }}" 
+                   class="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition inline-flex items-center justify-center" 
+                   {!! $attrs !!}>
+            @endif
+
                 @if($icon)
                     {!! $icon !!}
                 @else
