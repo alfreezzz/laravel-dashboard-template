@@ -31,6 +31,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Password Reset Toggle
+    |--------------------------------------------------------------------------
+    |
+    | When this value is false the password reset routes (both the "forgot
+    | password" screens and the ability for admins to trigger a reset for a
+    | user) will not be registered.  It can be controlled with the
+    | PASSWORD_RESET_ENABLED environment variable.
+    |
+    */
+    'password_reset_enabled' => env('PASSWORD_RESET_ENABLED', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
     |

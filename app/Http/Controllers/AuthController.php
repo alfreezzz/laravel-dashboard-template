@@ -125,4 +125,74 @@ class AuthController extends Controller
 
         return back()->with('success', 'Password berhasil diubah');
     }
+
+    // ---------------------------------------------------------------------
+    // password reset helpers
+    // ---------------------------------------------------------------------
+
+    public function showForgotPassword()
+    {
+        if (! config('auth.password_reset_enabled')) {
+            abort(404);
+        }
+
+        return view('auth.forgot-password');
+    }
+
+    public function sendForgotPasswordLink(Request $request)
+    {
+        if (! config('auth.password_reset_enabled')) {
+            abort(404);
+        }
+
+        $request->validate(['email' => 'required|email']);
+
+        $status = \Illuminate\Support\Facades\Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === \Illuminate\Support\Facades\Password::RESET_LINK_SENT
+                    ? back()->with('success', __($status))
+                    : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function showResetPassword(string $token)
+    {
+        if (! config('auth.password_reset_enabled')) {
+            abort(404);
+        }
+
+        return view('auth.reset-password', ['token' => $token]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        if (! config('auth.password_reset_enabled')) {
+            abort(404);
+        }
+        
+        $data = $request->validate([
+            'token' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $status = \Illuminate\Support\Facades\Password::reset(
+            $data,
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                ])->save();
+
+                \Illuminate\Support\Facades\Auth::login($user);
+            }
+        );
+
+        if ($status === \Illuminate\Support\Facades\Password::PASSWORD_RESET) {
+            $user = Auth::user();
+            return redirect($user->role === 'admin' ? route('admin.dashboard') : route('user.dashboard'))
+                ->with('success', __($status));
+        }
+        return back()->withErrors(['email' => [__($status)]]);
+    }
 }

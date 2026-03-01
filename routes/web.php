@@ -34,6 +34,18 @@ if (config('auth.registration_enabled')) {
     Route::post('register', [AuthController::class, 'register']);
 }
 
+// forgot/reset password and admin reset links are behind a toggle
+if (config('auth.password_reset_enabled')) {
+    Route::get('forgot-password', [AuthController::class, 'showForgotPassword'])
+        ->name('password.request');
+    Route::post('forgot-password', [AuthController::class, 'sendForgotPasswordLink'])
+        ->name('password.email');
+    Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])
+        ->name('password.reset');
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])
+        ->name('password.update');
+}
+
 // admin area protected by auth and only accessible to admins
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', function () {
@@ -46,6 +58,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('users', \App\Http\Controllers\UserController::class);
     // quick toggle endpoint for active/disabled state
     Route::patch('users/{user}/toggle', [\App\Http\Controllers\UserController::class, 'toggle'])->name('users.toggle');
+
+    // admin-triggered password reset (only if resets are enabled)
+    if (config('auth.password_reset_enabled')) {
+        Route::patch('users/{user}/reset-password', [\App\Http\Controllers\UserController::class, 'resetPassword'])
+            ->name('users.resetPassword');
+    }
 });
 
 // shared settings accessible to any authenticated user

@@ -33,11 +33,6 @@
             {{-- Kanan --}}
             <div class="flex items-center gap-1 sm:gap-3">
 
-                {{-- Tanggal & Waktu --}}
-                <div class="hidden sm:block text-sm text-slate-500 dark:text-slate-400 tabular-nums mr-1">
-                    {{ now()->timezone('Asia/Jakarta')->format('d M Y, H:i') }}
-                </div>
-
                 @guest
                     <div class="flex items-center gap-2">
                         <a href="{{ route('login') }}" class="text-sm text-blue-600 hover:underline">Login</a>

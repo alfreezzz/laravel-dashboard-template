@@ -23,6 +23,19 @@
                             </x-slot:icon>
                         </x-sidebar.sidebar-link>
 
+                        <x-sidebar.sidebar-link href="{{ route('users.index') }}" label="Pengguna" :active="request()->routeIs('users.*')">
+                            <x-slot:icon>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Primary user -->
+                                    <circle cx="9" cy="7" r="3" />
+                                    <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+                                    <!-- Secondary user (behind/right) -->
+                                    <path d="M16 3.13a4 4 0 010 7.75" />
+                                    <path d="M21 21v-2a4 4 0 00-3-3.87" />
+                                </svg>
+                            </x-slot:icon>
+                        </x-sidebar.sidebar-link>
+
                         <x-sidebar.sidebar-link href="{{ route('categories.index') }}" label="Kategori" :active="request()->routeIs('categories.*')">
                             <x-slot:icon>
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,19 +48,6 @@
                             <x-slot:icon>
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4m-8-4v10l8 4m0-10v10" />
-                                </svg>
-                            </x-slot:icon>
-                        </x-sidebar.sidebar-link>
-
-                        <x-sidebar.sidebar-link href="{{ route('users.index') }}" label="Pengguna" :active="request()->routeIs('users.*')">
-                            <x-slot:icon>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <!-- Primary user -->
-                                    <circle cx="9" cy="7" r="3" />
-                                    <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
-                                    <!-- Secondary user (behind/right) -->
-                                    <path d="M16 3.13a4 4 0 010 7.75" />
-                                    <path d="M21 21v-2a4 4 0 00-3-3.87" />
                                 </svg>
                             </x-slot:icon>
                         </x-sidebar.sidebar-link>
