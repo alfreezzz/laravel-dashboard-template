@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     <!-- theme script must run early to prevent flash of incorrect theme -->
     <script>
         (function() {
@@ -90,5 +91,7 @@
             });
         });
     </script>
+
+    @livewireScripts
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Selamat Datang')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     <script>
         (function() {
             let theme = localStorage.getItem('theme') || 'system';
@@ -89,5 +90,7 @@
     <footer class="relative text-center py-6 text-sm text-slate-500 dark:text-slate-500 border-t border-slate-200 dark:border-slate-800">
         &copy; {{ now()->year }} {{ env('APP_NAME') }}. All rights reserved.
     </footer>
+
+    @livewireScripts
 </body>
 </html>
