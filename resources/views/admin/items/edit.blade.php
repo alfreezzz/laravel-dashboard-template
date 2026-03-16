@@ -74,8 +74,6 @@
                 'Botol' => 'Botol',
                 'Kaleng' => 'Kaleng'
             ]"
-            option-value="key"
-            option-label="value"
             placeholder="-- Pilih Satuan --"
             :value="old('unit', $item->unit)"
             required

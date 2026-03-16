@@ -15,32 +15,21 @@
             required
         />
 
-        <div class="mb-4">
-            <label for="item_code" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                Barang
-                <span class="text-red-500">*</span>
-            </label>
-            
-            <select 
-                name="item_code"
-                id="item_code"
-                required
-                onchange="updatePrice()"
-                class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition cursor-pointer"
-            >
-                <option value="">-- Pilih Barang --</option>
-                @foreach($items as $item)
-                    <option value="{{ $item->code }}" 
-                            data-price="{{ $item->selling_price }}"
-                            {{ old('item_code') == $item->code ? 'selected' : '' }}>
-                        {{ $item->code }} - {{ $item->name }} (Rp {{ number_format($item->selling_price, 0, ',', '.') }})
-                    </option>
-                @endforeach
-            </select>
-            @error('item_code')
-                <p class="mt-1 text-sm text-red-500 dark:text-red-400">{{ $message }}</p>
-            @enderror
-        </div>
+        <x-form.select
+            label="Barang"
+            name="item_code"
+            id="item_code"
+            :options="$items"
+            optionValue="code"
+            optionLabel="{name} (Rp{selling_price})"
+            :searchKeys="['code', 'name']"
+            :optionData="['selling_price']"
+            :value="old('item_code')"
+            placeholder="-- Pilih Barang --"
+            :searchable="true"
+            searchPlaceholder="Cari kode atau nama barang..."
+            required
+        />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <x-form.input
@@ -70,9 +59,9 @@
             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Total Harga
             </label>
-            <input type="text" 
+            <input type="text"
                    id="total_price"
-                   class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white cursor-not-allowed font-semibold text-lg" 
+                   class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white cursor-not-allowed font-semibold text-lg"
                    disabled>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Otomatis dihitung dari jumlah × harga satuan</p>
         </div>
@@ -83,23 +72,21 @@
 
 <script>
 function updatePrice() {
-    const select = document.getElementById('item_code');
+    const input     = document.getElementById('item_code');
     const unitPrice = document.getElementById('unit_price');
-    const selectedOption = select.options[select.selectedIndex];
-    const price = selectedOption.getAttribute('data-price');
-    unitPrice.value = price || 0;
+    unitPrice.value = input.dataset.sellingPrice || 0;
     calculateTotal();
 }
 
 function calculateTotal() {
-    const quantity = parseInt(document.getElementById('quantity').value) || 0;
+    const quantity  = parseInt(document.getElementById('quantity').value)   || 0;
     const unitPrice = parseInt(document.getElementById('unit_price').value) || 0;
-    const totalPrice = quantity * unitPrice;
-    document.getElementById('total_price').value = 'Rp ' + totalPrice.toLocaleString('id-ID');
+    document.getElementById('total_price').value =
+        'Rp ' + (quantity * unitPrice).toLocaleString('id-ID');
 }
 
-// Initialize total on page load if values are present
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('item_code').addEventListener('change', updatePrice);
     calculateTotal();
 });
 </script>
