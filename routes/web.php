@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\RoleMiddleware;
@@ -53,6 +54,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     })->name('admin.dashboard');
 
     Route::resource('categories', CategoryController::class);
+    Route::resource('examples', ExampleController::class);
     Route::resource('items', ItemController::class);
     Route::resource('transactions', TransactionController::class)->only(['index', 'create', 'store', 'show']);
     Route::resource('users', \App\Http\Controllers\UserController::class);
